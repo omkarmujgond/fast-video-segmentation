@@ -1,10 +1,9 @@
 from tools.flow_utils import LeakyReLU, pad, antipad
 import tensorflow as tf
 slim = tf.contrib.slim
-
 class FlowNets(object):
 	def __init__(self, images1, images2, is_training=False):
-		with tf.variable_scope('FlowNets'):
+		with tf.variable_scope('FlowNetS'):
 			images= tf.concat([images1, images2], 3)
 			with slim.arg_scope([slim.conv2d, slim.conv2d_transpose],
 								# Only backprop this network if trainable
@@ -19,25 +18,25 @@ class FlowNets(object):
 				weights_regularizer = slim.l2_regularizer(0.0004)
 				with slim.arg_scope([slim.conv2d], weights_regularizer=weights_regularizer):
 					with slim.arg_scope([slim.conv2d], stride=2):
-						conv1 = slim.conv2d(pad(images, 3), 24, 7, scope='conv1')
-						conv2 = slim.conv2d(pad(conv1, 2), 48, 5, scope='conv2')
-						conv3 = slim.conv2d(pad(conv2, 2), 96, 5, scope='conv3')
+						conv1 = slim.conv2d(pad(images, 3), 64, 7, scope='conv1')
+						conv2 = slim.conv2d(pad(conv1, 2), 128, 5, scope='conv2')
+						conv3 = slim.conv2d(pad(conv2, 2), 256, 5, scope='conv3')
 
-					conv3_1 = slim.conv2d(pad(conv3), 96, 3, scope='conv3_1')
-					with slim.arg_scope([slim.conv2d], num_outputs=192, kernel_size=3):
+					conv3_1 = slim.conv2d(pad(conv3), 256, 3, scope='conv3_1')
+					with slim.arg_scope([slim.conv2d], num_outputs=512, kernel_size=3):
 						conv4 = slim.conv2d(pad(conv3_1), stride=2, scope='conv4')
 						conv4_1 = slim.conv2d(pad(conv4), scope='conv4_1')
 						conv5 = slim.conv2d(pad(conv4_1), stride=2, scope='conv5')
 						conv5_1 = slim.conv2d(pad(conv5), scope='conv5_1')
-					conv6 = slim.conv2d(pad(conv5_1), 384, 3, stride=2, scope='conv6')
-					conv6_1 = slim.conv2d(pad(conv6), 384, 3, scope='conv6_1')
+					conv6 = slim.conv2d(pad(conv5_1), 1024, 3, stride=2, scope='conv6')
+					conv6_1 = slim.conv2d(pad(conv6), 1024, 3, scope='conv6_1')
 
 					""" START: Refinement Network """
 					with slim.arg_scope([slim.conv2d_transpose], biases_initializer=None):
 						predict_flow6 = slim.conv2d(pad(conv6_1), 2, 3,
 													scope='predict_flow6',
 													activation_fn=None)
-						deconv5 = antipad(slim.conv2d_transpose(conv6_1, 192, 4,
+						deconv5 = antipad(slim.conv2d_transpose(conv6_1, 512, 4,
 																stride=2,
 																scope='deconv5')
 																,evenh = conv5_1.shape.as_list()[1]%2==0
@@ -53,7 +52,7 @@ class FlowNets(object):
 						predict_flow5 = slim.conv2d(pad(concat5), 2, 3,
 													scope='predict_flow5',
 													activation_fn=None)
-						deconv4 = antipad(slim.conv2d_transpose(concat5, 96, 4,
+						deconv4 = antipad(slim.conv2d_transpose(concat5, 256, 4,
 																stride=2,
 																scope='deconv4')
 																,evenh = conv4_1.shape.as_list()[1]%2==0
@@ -69,7 +68,7 @@ class FlowNets(object):
 						predict_flow4 = slim.conv2d(pad(concat4), 2, 3,
 													scope='predict_flow4',
 													activation_fn=None)
-						deconv3 = antipad(slim.conv2d_transpose(concat4, 48, 4,
+						deconv3 = antipad(slim.conv2d_transpose(concat4, 128, 4,
 																stride=2,
 																scope='deconv3')
 																,evenh = conv3_1.shape.as_list()[1]%2==0
@@ -85,7 +84,7 @@ class FlowNets(object):
 						predict_flow3 = slim.conv2d(pad(concat3), 2, 3,
 													scope='predict_flow3',
 													activation_fn=None)
-						deconv2 = antipad(slim.conv2d_transpose(concat3, 24, 4,
+						deconv2 = antipad(slim.conv2d_transpose(concat3, 64, 4,
 																stride=2,
 																scope='deconv2')
 																,evenh = conv2.shape.as_list()[1]%2==0
@@ -109,25 +108,30 @@ class FlowNets(object):
 													activation_fn=None)
 
 				self.flow = predict_flow2 * 5.0
+				self.flow = tf.image.resize_bilinear(self.flow,
+													 tf.stack([384, 512]),
+													 align_corners=True)
 				self.feature = conv6_1
+				self.concat2 = concat2
 				# TODO: Look at Accum (train) or Resample (deploy) to see if we need to do something different
 	def inference(self):
 		return {
 			'feature': self.feature,
-			'scale': self.scale,
+			'concat2': self.concat2,
 			'flow': self.flow,
 		}
 
-	def load(self, saver, sess, ckpt_path):
-		'''Load trained weights.
+	def add_prediction_layer(self, concat2_layer):
+		scale = slim.conv2d(pad(concat2_layer), 12, 3,
+								weights_initializer=tf.constant_initializer(0.0),
+								biases_initializer=tf.constant_initializer(1.0),
+								scope='predict_scale',
+								activation_fn=None)
 
-        Args:
-          saver: TensorFlow saver object.
-          sess: TensorFlow session.
-          ckpt_path: path to checkpoint file with parameters.
-        '''
-		saver.restore(sess, ckpt_path)
-		print("Restored model parameters from {}".format(ckpt_path))
+		return {
+			'scale': scale
+		}
+
 
 
 
