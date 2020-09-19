@@ -8,7 +8,8 @@ This projects depends following main packages
 1. tensorflow==1.14
 2. tensorflow-gpu==1.14 (if gpu is available)
 
-There are different ways to setup the environment. All the setups are tested on mac os.
+There are three different ways to setup the environment. **Choose one**. Ideally first and second are recommended. 
+All the setups are tested on mac os.
 
 1. poetry
 
