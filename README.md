@@ -1,7 +1,7 @@
 # fast-video-segmentation
 
 
-# Installation
+## Installation
 
 This projects depends following main packages
 
@@ -18,17 +18,17 @@ Install poetry by following the [installation link][]
 
 After installation. 
 
-$ poetry update
+	$ poetry update
 
 This will install required dependencies by following the dependency list from [pyproject.toml](pyproject.toml)
 
 run the following command to load the environment.
 
-$ poetry shell
+	$ poetry shell
 
 if gpu is available on the machine then install the following
 
-$ pip install tensorflow-gpu==1.14
+	$ pip install tensorflow-gpu==1.14
 
 
 2. Conda
@@ -40,31 +40,31 @@ Install [miniconda][] by following the [conda installation link][]
 
 After conda installation, Create conda environment
 
-$ conda env create -f environment.yml
+	$ conda env create -f environment.yml
 
 This will install required dependencies by following the dependency list from [environment.yml](environment.yml)
 
 run the following command to load the environment.
 
-$ conda activate video-semantic-segmentation-network
+	$ conda activate video-semantic-segmentation-network
 
 if gpu is available on the machine then install the following
 
-$ pip install tensorflow-gpu==1.14
+	$ pip install tensorflow-gpu==1.14
 
 
 3. setup.py
 
 This method can be used if this projects is run on google colab kind of environments where poetry and conda virtual environments are unavailable.
 
-$ python setup.py install
+	$ python setup.py install
 
 This will install required dependencies. If gpu is available on the machine then install the following
 
-$ pip install tensorflow-gpu==1.14
+	$ pip install tensorflow-gpu==1.14
 
 
-Download models and dataset.
+## Download models and dataset.
 
 
 
