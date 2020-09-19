@@ -127,8 +127,8 @@ If the dataset from 2. is download then this step is not required. However, for 
 4. video input
 
 videos from camvid dataset can be downloaded from. These can be used as input to the inference. More on how to process video inputs in the following sections
-1. [seq01TP][] 
-2. [seq06R0][]
+1. ![seq01TP][] 
+2. ![seq06R0][]
 
 [seq01TP]: ftp://svr-ftp.eng.cam.ac.uk/pub/eccv/01TP_extract.avi
 [seq06R0]: ftp://svr-ftp.eng.cam.ac.uk/pub/eccv/0006R0.MXF
