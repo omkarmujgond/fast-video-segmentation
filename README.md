@@ -183,9 +183,16 @@ This should convert the keras model into protobuf format and the converted file 
 
 
 
+# References
+
+CamVid dataset: [alexgkendell][]
+Baseline model training: [image-segmentation-keras][]
+Flownets model checkpoints: [DVSNet]
 
 
-
+[alexgkendell]: https://github.com/alexgkendall/SegNet-Tutorial/tree/master/CamVid
+[image-segmentation-keras]: https://github.com/divamgupta/image-segmentation-keras
+[DVSNet]: https://github.com/XUSean0118/DVSNet
 
 
 
