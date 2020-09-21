@@ -4,6 +4,7 @@ import time
 import os
 import six
 import tensorflow as tf
+from math import sqrt
 
 import numpy as np
 from tensorflow.python.platform import gfile
@@ -14,19 +15,19 @@ from model.decisionmodel import Decision
 
 from pathlib import Path
 home = str(Path.home())
-VIDEO_FILE = home + '/data/video-segmentation/0006R0.MXF'
+VIDEO_FILE = home + '/data/video-segmentation/01TP_extract.avi'
 process_original = 'True'
 
 SEGNET_CHKPT = './resnet50_segnet_model/model.pb'
-DVS_FLOWNET_CHKPT = './DVSNet_checkpoint/finetune/'
-DECISION_CHKPT = './decision_checkpoints/'
+DVS_FLOWNET_CHKPT = './dvs_net_flownets_checkpoints/finetune/'
+DECISION_CHKPT = './decision_network_checkpoints/'
 
 
 SAVE_DIR = './video-output/'
 NUM_CLASSES = 11
 TARGET = 70.0
 
-FRAMES = 20
+FRAMES = 10
 
 seg_input_width = 608
 seg_input_height = 416
@@ -221,6 +222,8 @@ cmap_list = cmap.tolist()
 class_names = np.array([
     'sky', 'building', 'pole', 'road', 'pavement', 'tree', 'signsymbol',
     'fence', 'car', 'pedestrian', 'bicyclist', 'unlabelled'])
+
+class_names_enable_distance = ['pole', 'car', 'pedestrian', 'bicyclist']
 class_names_list = class_names.tolist()
 
 def laplacian(img):
@@ -247,7 +250,21 @@ def add_rectangles_with_labels(img, original_img, enable_original='False'):
         region_list = region.tolist()[::-1]
         if region_list in cmap_list:
             label = class_names_list[cmap_list.index(region_list)]
-            # distance = sqrt((region_x - 0) * (region_x - 0) + (region_y - 0) * (region_y - 0))
+            """
+            Distance conversion is based on following
+            100 pixel = 0.000026458 kilometer
+            https://www.translatorscafe.com/unit-converter/en-US/length/110-7/pixel-kilometer/
+            """
+            one_pixel_in_km = 0.000026458 / 100
+
+            one_pixel_in_metres = 0.0002645833
+
+            distance = sqrt(((original_width // 2) - region_x) * ((original_width // 2) - region_x) + (region_y - 0) * (region_y - 0))
+            distance = 1.0 / (distance * one_pixel_in_metres)
+
+            if label in class_names_enable_distance:
+                label = label + " " + "{:.2f}".format(distance) + " m"
+
             if enable_original == 'True':
                 # Draw black background rectangle
                 cv2.rectangle(original_img, (x1, y1), (x1 + len(label) * 12, y1 - 20), (155, 155, 0), -1)

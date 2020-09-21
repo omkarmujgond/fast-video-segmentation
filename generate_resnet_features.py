@@ -25,8 +25,8 @@ from pathlib import Path
 home = str(Path.home())
 DATA_DIRECTORY = home + '/data/video-segmentation/camvid_fps_30/'
 DATA_LIST_PATH = 'list/train_file_list.txt'
-RESTORE_FROM_SEG = './resnet50_segnet_model/model.pb'
-RESTORE_FROM_FLOWNET = './DVSNet_checkpoint/finetune/'
+RESTORE_FROM_SEG = './resnet50_segnet_model/resnet50_segnet.pb'
+RESTORE_FROM_FLOWNET = './dvs_net_flownets_checkpoints/finetune/'
 SAVE_DIR = './generated_features_resnet_segnet/train/'
 NUM_CLASSES = 11
 NUM_STEPS = 11005  # Number of images in the dataset.

@@ -14,7 +14,7 @@ from model.decisionmodel import Decision
 
 TRAIN_DATA_DIRECTORY = "./generated_features_resnet_segnet/train/"
 VAL_DATA_DIRECTORY = "./generated_features_resnet_segnet/val/"
-SAVE_DIR = './decision_checkpoints/'
+SAVE_DIR = './decision_network_checkpoints/'
 EPOCHS = 100
 BATCH_SIZE = 32
 LEARNING_RATE = 0.002

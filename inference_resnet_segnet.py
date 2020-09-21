@@ -22,16 +22,16 @@ DATA_DIRECTORY = home + '/data/video-segmentation/camvid_fps_30/'
 # DATA_LIST_PATH = './list/sample_video.txt'
 DATA_LIST_PATH = './list/test_file_list.txt'
 
-SEGNET_CHKPT = './resnet50_segnet_model/model.pb'
-DVS_FLOWNET_CHKPT = './DVSNet_checkpoint/finetune/'
-DECISION_CHKPT = './decision_checkpoints/'
+SEGNET_CHKPT = './resnet50_segnet_model/resnet50_segnet.pb'
+DVS_FLOWNET_CHKPT = './dvs_net_flownets_checkpoints/finetune/'
+DECISION_CHKPT = './decision_network_checkpoints/'
 
 
-SAVE_DIR = './video/'
+SAVE_DIR = './inference_output/'
 NUM_CLASSES = 11
 NUM_STEPS = 200 # Number of images in the video.
 OVERLAP = 0 #power of 8
-TARGET = 90.0
+TARGET = 80.0
 seg_input_width = 608
 seg_input_height = 416
 seg_output_width = 304
@@ -370,7 +370,7 @@ def main():
             image_inputs, key_inputs, segmentation_input = sess.run([image_s, image_f, image_in_batch], feed_dict={
                 image_current_frame_in : current_frame_raw_image
             })
-            segment_output_tensor = sess.graph.get_tensor_by_name('import/activation_50/truediv:0')
+            segment_output_tensor = sess.graph.get_tensor_by_name('import/activation_49/truediv:0')
             segment_input_tensor = sess.graph.get_tensor_by_name('import/input_1:0')
 
             segment_output = sess.run(segment_output_tensor, {segment_input_tensor: segmentation_input})
@@ -397,7 +397,7 @@ def main():
                 seg_step += 1
                 # print("Segmentation Path")
                 image_inputs = key_tmp
-                segment_output_tensor = sess.graph.get_tensor_by_name('import/activation_50/truediv:0')
+                segment_output_tensor = sess.graph.get_tensor_by_name('import/activation_49/truediv:0')
                 segment_input_tensor = sess.graph.get_tensor_by_name('import/input_1:0')
 
                 segment_output = sess.run(segment_output_tensor, {segment_input_tensor: segmentation_input})
@@ -437,7 +437,7 @@ def main():
         if args.save_dir != 'none':
             vis_semseg(current_output, cmap, current_frame_raw_image, args.save_dir, 'mask' + str(step) + '.png')
 
-    print('Average fps: ', avg_fps/args.num_steps)
+    print('\nAverage fps: ', avg_fps/args.num_steps)
     print('\nFinish!')
     print("segmentation steps:", seg_step, "flow steps:", flow_step)
     print("evaluation metrics:", compute_eval_metrics())
