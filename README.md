@@ -160,13 +160,27 @@ There are 2 parts for the training.
 ### Baseline segmentation network: resnet50_segnet
 
 **Prerequisites**
-1. 	CamVid dataset as mentioned in [datasets](####-datasets) section
+1. 	CamVid dataset as mentioned in [datasets](#datasets) section bullet point number 1.
+
 Baseline model used in experiments is an encoder-decoder network with resnet50 (pretrained with imagenet) as encoder and segnet as decoder. [resnet50](model/resnet50.py) and [segnet](model/segnet.py) are the encoder and decoder network. These files are written in keras and are place holders here. They are used to load the pretrained resnet50_segnet combined model and to convert keras model from hd5 format to tensorflow protobuf pb format. [convert_keras_to_tensorflow_pb.py](convert_keras_to_tensorflow_pb.py)
 
 Training is ideal if performed on machines with GPU support and following jupyter notebook can be used to train a new model. This notebook is used to generate a baseline model in our experiments and is run on google colab with GPU support.
 [resnet50_segnet_training]()
 
 [resnet50_segnet_training]:https://colab.research.google.com/drive/1Rpkg_cBLc0VdIGvUZdWo3FsMHgXlVPdH?usp=sharing
+
+#### what to do with the baseline segmentation network model.
+
+After training a new model with the above jupyter notebook on google colab, the trained model is a keras supported model saved typically 'resnet50_segnet.h5'. This model file is in hd5 format and needs to be converted to protobuf format 'resnet50_segnet.pb'
+Do the following
+
+	$ cp resnet50_segnet.h5 ./resnet50_segnet_model/resnet50_segnet.h5
+	$ python convert_keras_to_tensorflow_pb.py
+
+This should convert the keras model and saved the protobuf format file as './resnet50_segnet_model/resnet50_segnet.pb'
+
+
+
 
 
 
