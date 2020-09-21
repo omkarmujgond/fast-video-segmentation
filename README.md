@@ -1,6 +1,8 @@
 # fast-video-segmentation
 
 
+Most parts of the code is taken and modified as required from different github projects referenced [below](#references)
+
 ## Installation
 
 This projects depends following main packages
