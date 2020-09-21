@@ -112,12 +112,12 @@ and for decision_network_checkpoints,
 
 #### datasets
 
-1. Data for training the segmentation network that is resnet50_segnet model. This is a combination of encoder:[resnet50](model/resnet50.py) and decoder: [segnet](model/segnet.py)
+1. Data for training the baseline segmentation network that is resnet50_segnet model. 
 
-Download the dataset from [alexgkendell][]'s  gitbub tutorial. This dataset contains 701 annotated images (367: train, 101: val, 233: test). These images are single frame images and they are used to train segmentation network. More information is provided in the __training section__ 
+Download the dataset from [alexgkendell][]'s  gitbub tutorial. This dataset contains 701 annotated images (367: train, 101: val, 233: test). These images are single frame images and they are used to train segmentation network. More information is provided in the __Training__ section 
 
 [alexgkendell]: https://github.com/alexgkendall/SegNet-Tutorial/tree/master/CamVid
-The dataset used is the standard CamVid dataset that can be downloaded from 
+
 
 2. Data for training the full network explained in two different steps in __training section__ required following dataset.
 
