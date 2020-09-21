@@ -1,4 +1,4 @@
-# fast-video-segmentation
+# Video-semantic-segmentatation-network
 
 
 Most parts of the code is taken and modified as required from different github projects referenced [below](#references)
