@@ -65,6 +65,13 @@ This will install required dependencies. If gpu is available on the machine then
 	$ pip install tensorflow-gpu==1.14
 
 
+## Jupyter setup
+
+Jupyter needs to be installed and to list this projects settings in kernel spec do the following
+
+	$ python -m ipykernel install --user --name=video-semantic-segmentation-network
+
+
 ## Download models and dataset.
 
 #### Models and checkpoints
@@ -86,12 +93,14 @@ After downloading the compressed files, unzip them and copy them in to correspon
 	$ rm -rf resnet50_segnet_model_temp
 	$ rm resnet50_segnet_model.zip
 
-similarly, for dvs_net_flownets_checkpoints,
+similarly, for dvs_net_flownets_checkpoints: This is originally from [DVSNet][] (heading: Checkpoint)
 
 	$ unzip dvs_net_flownets_checkpoints.zip -d dvs_net_flownets_checkpoints_temp
 	$ cp -r dvs_net_flownets_checkpoints_temp/* dvs_net_flownets_checkpoints
 	$ rm -rf dvs_net_flownets_checkpoints_temp
 	$ rm dvs_net_flownets_checkpoints.zip
+
+[DVSNet]: https://github.com/XUSean0118/DVSNet/blob/master/README.md
 
 and for decision_network_checkpoints,
 
@@ -103,14 +112,14 @@ and for decision_network_checkpoints,
 
 #### datasets
 
-1. Training the segmentation network that is resnet50_segnet model. This is a combination of encoder:[resnet50](model/resnet50.py) and decoder: [segnet](model/segnet.py)
+1. Data for training the segmentation network that is resnet50_segnet model. This is a combination of encoder:[resnet50](model/resnet50.py) and decoder: [segnet](model/segnet.py)
 
 Download the dataset from [alexgkendell][]'s  gitbub tutorial. This dataset contains 701 annotated images (367: train, 101: val, 233: test). These images are single frame images and they are used to train segmentation network. More information is provided in the __training section__ 
 
 [alexgkendell]: https://github.com/alexgkendall/SegNet-Tutorial/tree/master/CamVid
 The dataset used is the standard CamVid dataset that can be downloaded from 
 
-2. Training the full network explained in two different steps in __training section__ required following dataset.
+2. Data for training the full network explained in two different steps in __training section__ required following dataset.
 
 The dataset required for this is the same dataset as above but sampled at 30 frames per second. 30th frame is considered as current frame and 1st - 29th frame is considered as key frames. Annotation is provided for the current frame that is the 30th frame.
 
@@ -118,7 +127,7 @@ This dataset can be downloaded from here: [camvid_30_fps][]
 
 [camvid_30_fps]: https://drive.google.com/file/d/12wzNEj8cS3tWEO-RhsMCs55_RePiyA6S/view?usp=sharing
 
-3. Evaluation or running the inference
+3. Data for evaluation or running the inference
 
 If the dataset from 2. is download then this step is not required. However, for running inference only and getting the **evaluation results** test set needs to be downloaded and this is packaged seperately for convinience and can be downloade from here: [camvid_30_fps_test_only][]
 
@@ -132,6 +141,34 @@ videos from camvid dataset can be downloaded from. These can be used as input to
 
 [seq01TP]: ftp://svr-ftp.eng.cam.ac.uk/pub/eccv/01TP_extract.avi
 [seq06R0]: ftp://svr-ftp.eng.cam.ac.uk/pub/eccv/0006R0.MXF
+
+
+
+## Running inference
+
+
+#### How to get evaluation results
+#### How to process a video
+
+
+## Training
+
+There are 2 parts for the training. 
+1. Baseline segmentation network
+2. Fill training of video-semantic-segmentation-network
+
+### Baseline segmentation network: resnet50_segnet
+
+**Prerequisites**
+1. 	CamVid dataset as mentioned in [datasets](####-datasets) section
+Baseline model used in experiments is an encoder-decoder network with resnet50 (pretrained with imagenet) as encoder and segnet as decoder. [resnet50](model/resnet50.py) and [segnet](model/segnet.py) are the encoder and decoder network. These files are written in keras and are place holders here. They are used to load the pretrained resnet50_segnet combined model and to convert keras model from hd5 format to tensorflow protobuf pb format. [convert_keras_to_tensorflow_pb.py](convert_keras_to_tensorflow_pb.py)
+
+Training is ideal if performed on machines with GPU support and following jupyter notebook can be used to train a new model. This notebook is used to generate a baseline model in our experiments and is run on google colab with GPU support.
+[resnet50_segnet_training]()
+
+[resnet50_segnet_training]:https://colab.research.google.com/drive/1Rpkg_cBLc0VdIGvUZdWo3FsMHgXlVPdH?usp=sharing
+
+
 
 
 
