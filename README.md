@@ -114,7 +114,7 @@ and for decision_network_checkpoints,
 
 1. Data for training the baseline segmentation network that is resnet50_segnet model. 
 
-Download the dataset from [alexgkendell][]'s  gitbub tutorial. This dataset contains 701 annotated images (367: train, 101: val, 233: test). These images are single frame images and they are used to train segmentation network. More information is provided in the __Training__ section 
+Download the dataset from [alexgkendell][]'s  gitbub tutorial. This dataset contains 701 annotated images (367: train, 101: val, 233: test). These images are single frame images and they are used to train segmentation network. More information is provided in the [Training](#baseline-segmentation-network-resnet50_segnet) section 
 
 [alexgkendell]: https://github.com/alexgkendall/SegNet-Tutorial/tree/master/CamVid
 
@@ -177,7 +177,9 @@ Do the following
 	$ cp resnet50_segnet.h5 ./resnet50_segnet_model/resnet50_segnet.h5
 	$ python convert_keras_to_tensorflow_pb.py
 
-This should convert the keras model and saved the protobuf format file as './resnet50_segnet_model/resnet50_segnet.pb'
+This should convert the keras model into protobuf format and the converted file should be copied to ./resnet50_segnet_model/resnet50_segnet.pb
+
+	$ ls -rtl ./resnet50_segnet_model/
 
 
 
