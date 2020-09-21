@@ -127,13 +127,13 @@ The dataset required for this is the same dataset as above but sampled at 30 fra
 
 This dataset can be downloaded from here: [camvid_30_fps][]
 
-[camvid_30_fps]: https://drive.google.com/file/d/12wzNEj8cS3tWEO-RhsMCs55_RePiyA6S/view?usp=sharing
+[camvid_30_fps]: https://drive.google.com/drive/folders/1wIzlVcRHj3qe9wkn6yCeJeBrmd8KFx8L?usp=sharing
 
 3. Data for evaluation or running the inference
 
 If the dataset from 2. is download then this step is not required. However, for running inference only and getting the **evaluation results** test set needs to be downloaded and this is packaged seperately for convinience and can be downloade from here: [camvid_30_fps_test_only][]
 
-[camvid_30_fps_test_only]: https://drive.google.com/file/d/12wzNEj8cS3tWEO-RhsMCs55_RePiyA6S/view?usp=sharing
+[camvid_30_fps_test_only]: https://drive.google.com/drive/folders/1XXurb1amFvXeSLmKbpZvThhzE4mopY07?usp=sharing
 
 4. video input
 
