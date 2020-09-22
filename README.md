@@ -150,6 +150,38 @@ videos from camvid dataset can be downloaded from. These can be used as input to
 
 
 #### How to get evaluation results
+
+**Prerequisites**
+1. Download pretrained models as mentioned in the [models and checkpoints section](#models-and-checkpoints) and copy them over as specified
+2. Download camvid_30_fps_test_only dataset and copy it to ./camvid_30_fps_test_only/ or use the download path in the arguments
+
+**Balanced mode** with confidence score (target) set to 80.0. If the confidence score is close to 100.0 then its more likely that segmentation path will be chosen most of the time. Similarly, if the confidence score is set to for eg: 50.0 that is close to 0 then its more likely that flownet path will be chosen.
+
+	$ python inference_resnet_segnet.py \
+	$ --num_steps 6959 \
+	$ --target 80.0 \
+	$ --data_dir /data/video-segmentation/camvid_30_fps_test_only \
+	$ --save_dir ./inference-output/
+
+--num_steps is number of images in testset
+--data_dir is path to the download camvid test only dataset.
+--save_dir is path to save the predicted images. All images are png images and start with name 'mask'
+
+To avoid saving predicted images set the --save_dir to none like the following.
+
+	$ python inference_resnet_segnet.py \
+	$ --num_steps 6959 \
+	$ --target 80.0 \
+	$ --data_dir /data/video-segmentation/camvid_30_fps_test_only \
+	$ --save_dir none
+
+The output looks like the following
+
+# ![target-80](readme_images/target-80_balanced_mode.png)
+
+From the output we can see that that Average fps is 16.84 on 16 GB ram machine without GPU. The segmentation paths were 143 and flowsteps were 6815.
+
+
 #### How to process a video
 
 
