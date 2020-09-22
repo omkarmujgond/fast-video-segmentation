@@ -1,5 +1,7 @@
-# fast-video-segmentation
+# Video-semantic-segmentatation-network
 
+
+Most parts of the code is taken and modified as required from different github projects referenced [below](#references)
 
 ## Installation
 
@@ -125,13 +127,13 @@ The dataset required for this is the same dataset as above but sampled at 30 fra
 
 This dataset can be downloaded from here: [camvid_30_fps][]
 
-[camvid_30_fps]: https://drive.google.com/file/d/12wzNEj8cS3tWEO-RhsMCs55_RePiyA6S/view?usp=sharing
+[camvid_30_fps]: https://drive.google.com/drive/folders/1wIzlVcRHj3qe9wkn6yCeJeBrmd8KFx8L?usp=sharing
 
 3. Data for evaluation or running the inference
 
 If the dataset from 2. is download then this step is not required. However, for running inference only and getting the **evaluation results** test set needs to be downloaded and this is packaged seperately for convinience and can be downloade from here: [camvid_30_fps_test_only][]
 
-[camvid_30_fps_test_only]: https://drive.google.com/file/d/12wzNEj8cS3tWEO-RhsMCs55_RePiyA6S/view?usp=sharing
+[camvid_30_fps_test_only]: https://drive.google.com/drive/folders/1XXurb1amFvXeSLmKbpZvThhzE4mopY07?usp=sharing
 
 4. video input
 
@@ -164,8 +166,8 @@ There are 2 parts for the training.
 
 Baseline model used in experiments is an encoder-decoder network with resnet50 (pretrained with imagenet) as encoder and segnet as decoder. [resnet50](model/resnet50.py) and [segnet](model/segnet.py) are the encoder and decoder network. These files are written in keras and are place holders here. They are used to load the pretrained resnet50_segnet combined model and to convert keras model from hd5 format to tensorflow protobuf pb format. [convert_keras_to_tensorflow_pb.py](convert_keras_to_tensorflow_pb.py)
 
-Training is ideal if performed on machines with GPU support and following jupyter notebook can be used to train a new model. This notebook is used to generate a baseline model in our experiments and is run on google colab with GPU support.
-[resnet50_segnet_training]()
+Ideally training is performed on machines with GPU support and [resnet50_segnet_training][] a jupyter notebook can be used to train a new model. This notebook is used to generate a baseline model in our experiments and is run on google colab with GPU support.
+
 
 [resnet50_segnet_training]:https://colab.research.google.com/drive/1Rpkg_cBLc0VdIGvUZdWo3FsMHgXlVPdH?usp=sharing
 
@@ -183,9 +185,16 @@ This should convert the keras model into protobuf format and the converted file 
 
 
 
+# References
+
+1. CamVid dataset: [alexgkendell][]
+2. Baseline model training: [image-segmentation-keras][]
+3. Flownets model checkpoints: [DVSNet][]
 
 
-
+[alexgkendell]: https://github.com/alexgkendall/SegNet-Tutorial/tree/master/CamVid
+[image-segmentation-keras]: https://github.com/divamgupta/image-segmentation-keras
+[DVSNet]: https://github.com/XUSean0118/DVSNet
 
 
 
