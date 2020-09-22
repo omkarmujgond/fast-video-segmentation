@@ -167,7 +167,11 @@ videos from camvid dataset can be downloaded from. These can be used as input to
 
 Following is one of the the predicted images  stored in the --save_dir. Corresponding ground truth image is on the right of the predicted image
 
-# ![predicted-image](readme_images/mask45-predicted.png) # ![gt-image](readme_images/mask45-gt.png)
+Predicted Image
+# ![predicted-image](readme_images/mask45-predicted.png) 
+
+Ground Truth Image
+# ![gt-image](readme_images/mask45-gt.png)
 
 To avoid saving predicted images set the --save_dir to none like the following.
 
@@ -197,12 +201,25 @@ From the output we can see that that Average fps is 16.84 on 16 GB ram machine w
 	$ --target 80.0 \
 	$ --process_original True \
 	$ --video_file ./01TP_extract.avi
+	$ --save_dir ./video-output/
 
-The output looks like the following
 
-# ![video-output](readme_images/video-output.png)
 
-From the output we can see that
+The output video is stored in ./video-ouput/
+
+	$ ls ./video-output/
+	$ output-video-original.avi
+
+This is a long video and ctrl-c in the middle of the process will still result in output video.
+
+
+The output video is st
+
+# ![video-output](readme_images/video-frame-with-distance-info.png)
+
+From the output we can see that **bicyclist** is 6.68 m away from the driver view point and two **car**'s are 8.00m and 7.65m away. 
+
+**Note**: If --proceess_original False then rectangles and distance information is rendered on masked video output that contains frame images that are colored with label colors.
 
 
 ## Training
