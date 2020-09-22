@@ -138,11 +138,9 @@ If the dataset from 2. is download then this step is not required. However, for 
 4. video input
 
 videos from camvid dataset can be downloaded from. These can be used as input to the inference. More on how to process video inputs in the following sections
-1. [seq01TP][] 
-2. [seq06R0][]
+1. seq01TP : ftp://svr-ftp.eng.cam.ac.uk/pub/eccv/01TP_extract.avi
+2. 0005VD.MXF : ftp://svr-ftp.eng.cam.ac.uk/pub/eccv/0005VD.MXF
 
-[seq01TP]: ftp://svr-ftp.eng.cam.ac.uk/pub/eccv/01TP_extract.avi
-[seq06R0]: ftp://svr-ftp.eng.cam.ac.uk/pub/eccv/0006R0.MXF
 
 
 
@@ -167,6 +165,10 @@ videos from camvid dataset can be downloaded from. These can be used as input to
 --data_dir is path to the download camvid test only dataset.
 --save_dir is path to save the predicted images. All images are png images and start with name 'mask'
 
+Following is one of the the predicted images  stored in the --save_dir. Corresponding ground truth image is on the right of the predicted image
+
+# ![predicted-image](readme_images/mask45-predicted.png) # ![gt-image](readme_images/mask45-gt.png)
+
 To avoid saving predicted images set the --save_dir to none like the following.
 
 	$ python inference_resnet_segnet.py \
@@ -179,10 +181,28 @@ The output looks like the following
 
 # ![target-80](readme_images/target-80_balanced_mode.png)
 
-From the output we can see that that Average fps is 16.84 on 16 GB ram machine without GPU. The segmentation paths were 143 and flowsteps were 6815.
+From the output we can see that that Average fps is 16.84 on 16 GB ram machine without GPU. The segmentation steps were 143 and flowsteps were 6815.
+
 
 
 #### How to process a video
+
+**Prerequisites**
+1. Download pretrained models as mentioned in the [models and checkpoints section](#models-and-checkpoints) and copy them over as specified
+2. Download one of the sample video from the [datasets]($datasets) section point number 4 and copy it to project folder 
+
+	$ ls ./01TP_extract.avi
+
+	$ python inference_resnet_segnet_video.py \
+	$ --target 80.0 \
+	$ --process_original True \
+	$ --video_file ./01TP_extract.avi
+
+The output looks like the following
+
+# ![video-output](readme_images/video-output.png)
+
+From the output we can see that
 
 
 ## Training
