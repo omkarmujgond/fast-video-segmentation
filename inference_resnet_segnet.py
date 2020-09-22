@@ -18,8 +18,8 @@ class DataLoaderError(Exception):
 
 from pathlib import Path
 home = str(Path.home())
-# DATA_DIRECTORY = home + '/data/video-segmentation/camvid_fps_30/'
-DATA_DIRECTORY = './camvid_fps_30/'
+# DATA_DIRECTORY = home + '/data/video-segmentation/camvid_30_fpstarget-80_balanced_mode/'
+DATA_DIRECTORY = './camvid_30_fps_test_only/'
 # DATA_LIST_PATH = './list/sample_video.txt'
 DATA_LIST_PATH = './list/test_file_list.txt'
 

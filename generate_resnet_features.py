@@ -23,8 +23,8 @@ output_size = [seg_output_height, seg_output_width]
 
 from pathlib import Path
 home = str(Path.home())
-# DATA_DIRECTORY = home + '/data/video-segmentation/camvid_fps_30/'
-DATA_DIRECTORY = './camvid_fps_30/'
+# DATA_DIRECTORY = home + '/data/video-segmentation/camvid_30_fps/'
+DATA_DIRECTORY = './camvid_30_fps/'
 
 DATA_LIST_PATH = 'list/train_file_list.txt'
 RESTORE_FROM_SEG = './resnet50_segnet_model/resnet50_segnet.pb'
