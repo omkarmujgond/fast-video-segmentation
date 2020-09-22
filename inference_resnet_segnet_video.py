@@ -15,19 +15,26 @@ from model.decisionmodel import Decision
 
 from pathlib import Path
 home = str(Path.home())
-VIDEO_FILE = home + '/data/video-segmentation/01TP_extract.avi'
+# VIDEO_FILE = home + '/data/video-segmentation/01TP_extract.avi'
+
+VIDEO_FILE = './01TP_extract.avi'
 process_original = 'True'
 
-SEGNET_CHKPT = './resnet50_segnet_model/model.pb'
+SEGNET_CHKPT = './resnet50_segnet_model/resnet50_segnet.pb'
 DVS_FLOWNET_CHKPT = './dvs_net_flownets_checkpoints/finetune/'
 DECISION_CHKPT = './decision_network_checkpoints/'
+
+# target_values = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+# Based on the experiments performed.
+# The values will be picked based on the input target value
+frames_table = [25, 25, 25, 25, 25, 24, 19, 16, 8, 2]
 
 
 SAVE_DIR = './video-output/'
 NUM_CLASSES = 11
-TARGET = 70.0
+TARGET = 80.0
 
-FRAMES = 10
+
 
 seg_input_width = 608
 seg_input_height = 416
@@ -379,6 +386,10 @@ def main():
     frame_width = int(cap.get(3))
     frame_height = int(cap.get(4))
     outfilename = args.save_dir+'output-video-' + ('original.avi' if args.process_original == 'True' else 'segmented.avi')
+    frame_index = (int(target_score) // len(frames_table)) - 1
+    frame_index = frame_index if frame_index > 0 else 0
+    FRAMES = frames_table[frame_index]
+    print("output frames picked: ", FRAMES)
     out = cv2.VideoWriter(outfilename, cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'), FRAMES, (frame_width, frame_height))
     step = 0
     while (cap.isOpened()):
@@ -396,7 +407,7 @@ def main():
                 key_image_raw_contents: frame
             })
             # print("Initial region {}".format(i))
-            segment_output_tensor = sess.graph.get_tensor_by_name('import/activation_50/truediv:0')
+            segment_output_tensor = sess.graph.get_tensor_by_name('import/activation_49/truediv:0')
             segment_input_tensor = sess.graph.get_tensor_by_name('import/input_1:0')
 
             segment_output = sess.run(segment_output_tensor, {segment_input_tensor: segmentation_input})
@@ -422,7 +433,7 @@ def main():
                 seg_step += 1
                 # print("Segmentation Path")
                 image_inputs = key_tmp
-                segment_output_tensor = sess.graph.get_tensor_by_name('import/activation_50/truediv:0')
+                segment_output_tensor = sess.graph.get_tensor_by_name('import/activation_49/truediv:0')
                 segment_input_tensor = sess.graph.get_tensor_by_name('import/input_1:0')
 
                 segment_output = sess.run(segment_output_tensor, {segment_input_tensor: segmentation_input})
