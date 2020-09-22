@@ -30,9 +30,9 @@ DECISION_CHKPT = './decision_network_checkpoints/'
 
 SAVE_DIR = './inference_output/'
 NUM_CLASSES = 11
-NUM_STEPS = 200 # Number of images in the video.
-OVERLAP = 0 #power of 8
+NUM_STEPS = 6959 # Number of images in the test set
 TARGET = 80.0
+
 seg_input_width = 608
 seg_input_height = 416
 seg_output_width = 304
