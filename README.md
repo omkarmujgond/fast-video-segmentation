@@ -138,7 +138,7 @@ If the dataset from 2. is download then this step is not required. However, for 
 4. video input
 
 videos from camvid dataset can be downloaded from. These can be used as input to the inference. More on how to process video inputs in the following sections
-1. seq01TP : ftp://svr-ftp.eng.cam.ac.uk/pub/eccv/01TP_extract.avi
+1. seq01TP.avi : ftp://svr-ftp.eng.cam.ac.uk/pub/eccv/01TP_extract.avi
 2. 0005VD.MXF : ftp://svr-ftp.eng.cam.ac.uk/pub/eccv/0005VD.MXF
 
 
@@ -213,15 +213,20 @@ The output video is stored in ./video-ouput/
 This is a long video and ctrl-c in the middle of the process will still result in output video.
 
 
-Following is a snapshot from the output video. A few minutes long video is can be viewed on [youtube]
+Following is a snapshot from the one of the following output video. A little over 2 minutes long video can be viewed on 
+1. [youtube seq01TP.avi]
+1. [youtube 0005VD.MXF]
 
-[youtube]: https://www.youtube.com/watch?v=NKuETJ9MnA8
+[youtube seq01TP.avi]: https://youtu.be/12gbAF7S1ZU
+[youtube 0005VD.MXF]: https://youtu.be/ct40ZaaMS40
 
 # ![video-output](readme_images/video-frame-with-distance-info.png)
 
 From the output we can see that **bicyclist** is 6.68 m away from the driver view point and two **car**'s are 8.00m and 7.65m away. 
 
-**Note**: If --proceess_original False then rectangles and distance information is rendered on masked video output that contains frame images that are colored with label colors.
+**Note:** 
+1. The distance metric is enabled only for these labels ['pole', 'car', 'pedestrian', 'bicyclist']
+2. If --proceess_original False then rectangles and distance information is rendered on masked video output that contains frame images that are colored with label colors.
 
 
 
