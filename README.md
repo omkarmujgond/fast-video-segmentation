@@ -213,13 +213,16 @@ The output video is stored in ./video-ouput/
 This is a long video and ctrl-c in the middle of the process will still result in output video.
 
 
-The output video is st
+Following is a snapshot from the output video. A few minutes long video is can be viewed on [youtube]
+
+[youtube]: https://www.youtube.com/watch?v=NKuETJ9MnA8
 
 # ![video-output](readme_images/video-frame-with-distance-info.png)
 
 From the output we can see that **bicyclist** is 6.68 m away from the driver view point and two **car**'s are 8.00m and 7.65m away. 
 
 **Note**: If --proceess_original False then rectangles and distance information is rendered on masked video output that contains frame images that are colored with label colors.
+
 
 
 ## Training
