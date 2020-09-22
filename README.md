@@ -177,7 +177,7 @@ To avoid saving predicted images set the --save_dir to none like the following.
 
 The output looks like the following
 
-# ![target-80](readme_images/target-80-balanced-mode.png)
+# ![target-80](readme_images/target-80_balanced_mode.png)
 
 From the output we can see that that Average fps is 16.84 on 16 GB ram machine without GPU. The segmentation paths were 143 and flowsteps were 6815.
 
