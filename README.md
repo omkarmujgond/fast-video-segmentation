@@ -273,7 +273,40 @@ This should convert the keras model into protobuf format and the converted file 
 This step will generate features that are then used as training data to train a regression model in the next step.
 
 
+Training set: 
 
+	$ python generate_resnet_features.py \
+	$ --data_dir ./camvid_30_fps/ \
+	$ --data_list list/train_file_list.txt \
+	$ --num_steps 11005 \
+	$ --save_dir ./generated_features_resnet_segnet/train/
+
+
+Validation set:
+
+	$ python generate_resnet_features.py \
+	$ --data_dir ./camvid_30_fps/ \
+	$ --data_list list/val_file_list.txt \
+	$ --num_steps 229 \
+	$ --save_dir ./generated_features_resnet_segnet/val/
+
+After running the above steps X.npy and Y.npy files should have been created under ./generated_features_resnet_segnet/train and ./generated_features_resnet_segnet/val folders.
+
+
+#### Training decision network
+
+This is a regression model that uses the features (X.npy and Y.npy) from the previous steps. 
+
+Run:
+
+	$ python train_decision_network.py \
+	$ --train_data_dir ./generated_features_resnet_segnet/train/ \
+	$ --val_data_dir ./generated_features_resnet_segnet/val/ \
+	$ --save_dir ./decision_network_checkpoints/
+
+This should store checkpoints in specified directory and the output will print the training and validation rms error.
+
+After generating features and training a new decision network in addition to creating a new baseline model. Steps in the inference can be run to see the prediction of new model
 
 
 # References
