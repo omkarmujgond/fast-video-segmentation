@@ -195,7 +195,7 @@ From the output we can see that that Average fps is 16.84 on 16 GB ram machine w
 1. Download pretrained models as mentioned in the [models and checkpoints section](#models-and-checkpoints) and copy them over as specified
 2. Download one of the sample video from the [datasets]($datasets) section point number 4 and copy it to project folder 
 
-	$ ls ./01TP_extract.avi
+Run the following:
 
 	$ python inference_resnet_segnet_video.py \
 	$ --target 80.0 \
