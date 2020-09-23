@@ -153,7 +153,7 @@ videos from camvid dataset can be downloaded from. These can be used as input to
 1. Download pretrained models as mentioned in the [models and checkpoints section](#models-and-checkpoints) and copy them over as specified
 2. Download camvid_30_fps_test_only dataset and copy it to ./camvid_30_fps_test_only/ or use the download path in the arguments
 
-**Balanced mode** with confidence score (target) set to 80.0. If the confidence score is close to 100.0 then its more likely that segmentation path will be chosen most of the time. Similarly, if the confidence score is set to for eg: 50.0 that is close to 0 then its more likely that flownet path will be chosen.
+**Balanced mode** with confidence score (target) set to 80.0. If the confidence score is close to 100.0 then it is **slow mode** and its more likely that segmentation path will be chosen most of the time and a decrease in the fps is seen. Similarly, if the confidence score is set to for eg: 50.0 that is close to 0 then it is **fast mode** and its more likely that flownet path will be chosen and an increase in fps is seen.
 
 	$ python inference_resnet_segnet.py \
 	$ --num_steps 6959 \
@@ -234,7 +234,7 @@ From the output we can see that **bicyclist** is 6.68 m away from the driver vie
 
 There are 2 parts for the training. 
 1. Baseline segmentation network
-2. Fill training of video-semantic-segmentation-network
+2. Full training of video-semantic-segmentation-network
 
 ### Baseline segmentation network: resnet50_segnet
 
@@ -259,6 +259,20 @@ Do the following
 This should convert the keras model into protobuf format and the converted file should be copied to ./resnet50_segnet_model/resnet50_segnet.pb
 
 	$ ls -rtl ./resnet50_segnet_model/
+
+###  Full Training of video semantic segmentation network
+
+**Prerequisites**
+
+1. camvid_30_fps dataset as mentioned in [datasets](#datasets) section bullet point number 2.
+2. Newly trained baseline segmentation network model copied to respective folder as [mentioned above](#what-to-do-with-the-baseline-segmentation-network-model)
+3. Download the pretained dvs_net_flownets_checkpoints and copy to respective folder as mentioned in [models and checkpoints](#models-and-checkpoints) point number 2
+
+#### Generate features
+
+This step will generate features that are then used as training data to train a regression model in the next step.
+
+
 
 
 
