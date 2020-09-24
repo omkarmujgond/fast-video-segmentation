@@ -167,11 +167,13 @@ videos from camvid dataset can be downloaded from. These can be used as input to
 
 **Balanced mode** with confidence score (target) set to 80.0. If the confidence score is close to 100.0 then it is **slow mode** and its more likely that segmentation path will be chosen most of the time and a decrease in the fps is seen. Similarly, if the confidence score is set to for eg: 50.0 that is close to 0 then it is **fast mode** and its more likely that flownet path will be chosen and an increase in fps is seen.
 
-	$ python inference_resnet_segnet.py \
-	$ --num_steps 6959 \
-	$ --target 80.0 \
-	$ --data_dir /data/video-segmentation/camvid_30_fps_test_only \
-	$ --save_dir ./inference-output/
+	```
+	python inference_resnet_segnet.py \
+	  --num_steps 6959 \
+	  --target 80.0 \
+	  --data_dir /data/video-segmentation/camvid_30_fps_test_only \
+	  --save_dir ./inference-output/
+	```
 
 --num_steps is number of images in testset
 --data_dir is path to the download camvid test only dataset.
@@ -187,11 +189,13 @@ Ground Truth Image
 
 To avoid saving predicted images set the --save_dir to none like the following.
 
-	$ python inference_resnet_segnet.py \
-	$ --num_steps 6959 \
-	$ --target 80.0 \
-	$ --data_dir /data/video-segmentation/camvid_30_fps_test_only \
-	$ --save_dir none
+	```
+	python inference_resnet_segnet.py \
+	  --num_steps 6959 \
+	  --target 80.0 \
+	  --data_dir /data/video-segmentation/camvid_30_fps_test_only \
+	  --save_dir none
+	```
 
 The output looks like the following
 
@@ -209,11 +213,13 @@ From the output we can see that that Average fps is 16.84 on 16 GB ram machine w
 
 Run the following:
 
-	$ python inference_resnet_segnet_video.py \
-	$ --target 80.0 \
-	$ --process_original True \
-	$ --video_file ./01TP_extract.avi
-	$ --save_dir ./video-output/
+	```
+	python inference_resnet_segnet_video.py \
+	  --target 80.0 \
+	  --process_original True \
+	  --video_file ./01TP_extract.avi
+	  --save_dir ./video-output/
+	```
 
 
 
@@ -287,20 +293,24 @@ This step will generate features that are then used as training data to train a 
 
 Training set: 
 
-	$ python generate_resnet_features.py \
-	$ --data_dir ./camvid_30_fps/ \
-	$ --data_list list/train_file_list.txt \
-	$ --num_steps 11005 \
-	$ --save_dir ./generated_features_resnet_segnet/train/
+	```
+	python generate_resnet_features.py \
+	  --data_dir ./camvid_30_fps/ \
+	  --data_list list/train_file_list.txt \
+	  --num_steps 11005 \
+	  --save_dir ./generated_features_resnet_segnet/train/
+	```
 
 
 Validation set:
-
-	$ python generate_resnet_features.py \
-	$ --data_dir ./camvid_30_fps/ \
-	$ --data_list list/val_file_list.txt \
-	$ --num_steps 229 \
-	$ --save_dir ./generated_features_resnet_segnet/val/
+	
+	```
+	python generate_resnet_features.py \
+	  --data_dir ./camvid_30_fps/ \
+	  --data_list list/val_file_list.txt \
+	  --num_steps 229 \
+	  --save_dir ./generated_features_resnet_segnet/val/
+	```
 
 After running the above steps X.npy and Y.npy files should have been created under ./generated_features_resnet_segnet/train and ./generated_features_resnet_segnet/val folders.
 
@@ -311,10 +321,12 @@ This is a regression model that uses the features (X.npy and Y.npy) from the pre
 
 Run:
 
-	$ python train_decision_network.py \
-	$ --train_data_dir ./generated_features_resnet_segnet/train/ \
-	$ --val_data_dir ./generated_features_resnet_segnet/val/ \
-	$ --save_dir ./decision_network_checkpoints/
+	```
+	python train_decision_network.py \
+	  --train_data_dir ./generated_features_resnet_segnet/train/ \
+	  --val_data_dir ./generated_features_resnet_segnet/val/ \
+	  --save_dir ./decision_network_checkpoints/
+	```
 
 This should store checkpoints in specified directory and the output will print the training and validation rms error.
 
