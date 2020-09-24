@@ -56,15 +56,27 @@ if gpu is available on the machine then install the following
 	$ pip install tensorflow-gpu==1.14
 
 
-3. setup.py
+3. Manual Setup
+
 
 This method can be used if this projects is run on google colab kind of environments where poetry and conda virtual environments are unavailable.
 
-	$ python setup.py install
+Python verion: 3.6
 
-This will install required dependencies. If gpu is available on the machine then install the following
+	$ pip install opencv-python==4.4.0.42
+	$ pip install numpy==1.13.3
+	$ pip install Pillow==7.2.0
+	$ pip install pypng==0.0.20
+	$ pip install matplotlib==3.3.0
+	$ pip install scipy==1.5.2
+	$ pip install imageio==2.9.0
+	$ pip install tensorflow==1.14
+
+if gpu is available then install the following
 
 	$ pip install tensorflow-gpu==1.14
+
+tensorflow==1.15 and tensorflow-gpu==1.15 can also be tried. The experiments are tested on both 1.14 and 1.15
 
 
 ## Jupyter setup
