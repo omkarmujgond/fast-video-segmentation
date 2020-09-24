@@ -17,7 +17,7 @@ All the setups are tested on mac os.
 
 Install poetry by following the [installation link][]
 
-[installation link]: https://python-poetry.org/docs/#installation
+[installation link]: https://python-poetry.org/docs
 
 After installation. 
 
@@ -96,21 +96,21 @@ There are three models that are required to run the inference and all are tensor
 3. **decision_network_checkpoints** : [decision_network_checkpoints][]
 
 
-[resnet50_segnet_model]: https://drive.google.com/file/d/19yNs8osr9x1jTQWhy0MFkLIjQjkyEgeN/view?usp=sharing
-[dvs_net_flownets_checkpoints]: https://drive.google.com/file/d/1HkuF0LB105EdprTY-JDpJ7ott4OH-zSt/view?usp=sharing
-[decision_network_checkpoints]: https://drive.google.com/file/d/12wzNEj8cS3tWEO-RhsMCs55_RePiyA6S/view?usp=sharing
+[resnet50_segnet_model]: https://drive.google.com/file/d/1Eh6PZLuBkV_mzvM9p7i9jBiRGGN6VOz6/view?usp=sharing
+[dvs_net_flownets_checkpoints]: https://drive.google.com/file/d/10jo98ild8cU621Y8zroLZF4q0rC9K5q_/view?usp=sharing
+[decision_network_checkpoints]: https://drive.google.com/file/d/1TiqORzBZpgGYKIIrA5eSpYEFXWjvP4VJ/view?usp=sharing
 
 After downloading the compressed files, unzip them and copy them in to corresponding folders as following.
 
 	$ unzip resnet50_segnet_model.zip -d resnet50_segnet_model_temp
-	$ cp -r resnet50_segnet_model_temp/* resnet50_segment_model
+	$ cp resnet50_segnet_model_temp/resnet50_segnet_model/* resnet50_segnet_model
 	$ rm -rf resnet50_segnet_model_temp
 	$ rm resnet50_segnet_model.zip
 
 similarly, for dvs_net_flownets_checkpoints: This is originally from [DVSNet][] (heading: Checkpoint)
 
 	$ unzip dvs_net_flownets_checkpoints.zip -d dvs_net_flownets_checkpoints_temp
-	$ cp -r dvs_net_flownets_checkpoints_temp/* dvs_net_flownets_checkpoints
+	$ cp -r dvs_net_flownets_checkpoints_temp/dvs_net_flownets_checkpoints/* dvs_net_flownets_checkpoints
 	$ rm -rf dvs_net_flownets_checkpoints_temp
 	$ rm dvs_net_flownets_checkpoints.zip
 
@@ -119,7 +119,7 @@ similarly, for dvs_net_flownets_checkpoints: This is originally from [DVSNet][] 
 and for decision_network_checkpoints,
 
 	$ unzip decision_network_checkpoints.zip -d decision_network_checkpoints_temp
-	$ cp -r decision_network_checkpoints_temp/* decision_network_checkpoints
+	$ cp decision_network_checkpoints_temp/decision_network_checkpoints/* decision_network_checkpoints
 	$ rm -rf decision_network_checkpoints_temp
 	$ rm decision_network_checkpoints.zip
 
@@ -143,7 +143,8 @@ This dataset can be downloaded from here: [camvid_30_fps][]
 
 3. Data for evaluation or running the inference
 
-If the dataset from 2. is download then this step is not required. However, for running inference only and getting the **evaluation results** test set needs to be downloaded and this is packaged seperately for convinience and can be downloade from here: [camvid_30_fps_test_only][]
+If the dataset from point number 2 was downloaded then this step is not required. 
+However, for running inference only and getting the **evaluation results**, this test set needs to be downloaded. This is packaged seperately for convinience and can be downloaded from here: [camvid_30_fps_test_only][]
 
 [camvid_30_fps_test_only]: https://drive.google.com/drive/folders/1XXurb1amFvXeSLmKbpZvThhzE4mopY07?usp=sharing
 
@@ -171,7 +172,7 @@ videos from camvid dataset can be downloaded from. These can be used as input to
 	python inference_resnet_segnet.py \
 	  --num_steps 6959 \
 	  --target 80.0 \
-	  --data_dir /data/video-segmentation/camvid_30_fps_test_only \
+	  --data_dir ./camvid_30_fps_test_only/ \
 	  --save_dir ./inference-output/
 	
 
@@ -191,9 +192,9 @@ To avoid saving predicted images set the --save_dir to none like the following.
 
 	
 	python inference_resnet_segnet.py \
-	  --num_steps 6959 \
+	  --num_steps 200 \
 	  --target 80.0 \
-	  --data_dir /data/video-segmentation/camvid_30_fps_test_only \
+	  --data_dir ./camvid_30_fps_test_only/ \
 	  --save_dir none
 	
 
@@ -217,7 +218,7 @@ Run the following:
 	python inference_resnet_segnet_video.py \
 	  --target 80.0 \
 	  --process_original True \
-	  --video_file ./01TP_extract.avi
+	  --video_file ./01TP_extract.avi \
 	  --save_dir ./video-output/
 	
 
@@ -332,7 +333,10 @@ Run:
 	  --save_dir ./decision_network_checkpoints/
 
 
-This should store checkpoints in specified directory and the output will print the training and validation rms error.
+This should store checkpoints in specified directory and the output will print the training and validation rms error like the following after 100 epochs
+
+# ![decision-net-output](readme_images/decision-network-training.png)
+
 
 After generating features and training a new decision network in addition to creating a new baseline model. Steps in the inference can be run to see the prediction of new model
 
