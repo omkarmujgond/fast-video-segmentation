@@ -321,12 +321,12 @@ This is a regression model that uses the features (X.npy and Y.npy) from the pre
 
 Run:
 
-	```
+	
 	python train_decision_network.py \
 	  --train_data_dir ./generated_features_resnet_segnet/train/ \
 	  --val_data_dir ./generated_features_resnet_segnet/val/ \
 	  --save_dir ./decision_network_checkpoints/
-	```
+
 
 This should store checkpoints in specified directory and the output will print the training and validation rms error.
 
