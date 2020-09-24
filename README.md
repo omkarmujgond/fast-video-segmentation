@@ -150,7 +150,7 @@ If the dataset from 2. is download then this step is not required. However, for 
 4. video input
 
 videos from camvid dataset can be downloaded from. These can be used as input to the inference. More on how to process video inputs in the following sections
-1. seq01TP : ftp://svr-ftp.eng.cam.ac.uk/pub/eccv/01TP_extract.avi
+1. seq01TP.avi : ftp://svr-ftp.eng.cam.ac.uk/pub/eccv/01TP_extract.avi
 2. 0005VD.MXF : ftp://svr-ftp.eng.cam.ac.uk/pub/eccv/0005VD.MXF
 
 
@@ -165,7 +165,7 @@ videos from camvid dataset can be downloaded from. These can be used as input to
 1. Download pretrained models as mentioned in the [models and checkpoints section](#models-and-checkpoints) and copy them over as specified
 2. Download camvid_30_fps_test_only dataset and copy it to ./camvid_30_fps_test_only/ or use the download path in the arguments
 
-**Balanced mode** with confidence score (target) set to 80.0. If the confidence score is close to 100.0 then its more likely that segmentation path will be chosen most of the time. Similarly, if the confidence score is set to for eg: 50.0 that is close to 0 then its more likely that flownet path will be chosen.
+**Balanced mode** with confidence score (target) set to 80.0. If the confidence score is close to 100.0 then it is **slow mode** and its more likely that segmentation path will be chosen most of the time and a decrease in the fps is seen. Similarly, if the confidence score is set to for eg: 50.0 that is close to 0 then it is **fast mode** and its more likely that flownet path will be chosen and an increase in fps is seen.
 
 	$ python inference_resnet_segnet.py \
 	$ --num_steps 6959 \
@@ -207,7 +207,7 @@ From the output we can see that that Average fps is 16.84 on 16 GB ram machine w
 1. Download pretrained models as mentioned in the [models and checkpoints section](#models-and-checkpoints) and copy them over as specified
 2. Download one of the sample video from the [datasets]($datasets) section point number 4 and copy it to project folder 
 
-	$ ls ./01TP_extract.avi
+Run the following:
 
 	$ python inference_resnet_segnet_video.py \
 	$ --target 80.0 \
@@ -225,20 +225,28 @@ The output video is stored in ./video-ouput/
 This is a long video and ctrl-c in the middle of the process will still result in output video.
 
 
-The output video is st
+Following is a snapshot from the one of the following output video. A little over 2 minutes long video can be viewed on 
+1. [youtube seq01TP.avi]
+1. [youtube 0005VD.MXF]
+
+[youtube seq01TP.avi]: https://youtu.be/12gbAF7S1ZU
+[youtube 0005VD.MXF]: https://youtu.be/ct40ZaaMS40
 
 # ![video-output](readme_images/video-frame-with-distance-info.png)
 
 From the output we can see that **bicyclist** is 6.68 m away from the driver view point and two **car**'s are 8.00m and 7.65m away. 
 
-**Note**: If --proceess_original False then rectangles and distance information is rendered on masked video output that contains frame images that are colored with label colors.
+**Note:** 
+1. The distance metric is enabled only for these labels ['pole', 'car', 'pedestrian', 'bicyclist']
+2. If --proceess_original False then rectangles and distance information is rendered on masked video output that contains frame images that are colored with label colors.
+
 
 
 ## Training
 
 There are 2 parts for the training. 
 1. Baseline segmentation network
-2. Fill training of video-semantic-segmentation-network
+2. Full training of video-semantic-segmentation-network
 
 ### Baseline segmentation network: resnet50_segnet
 
@@ -264,6 +272,53 @@ This should convert the keras model into protobuf format and the converted file 
 
 	$ ls -rtl ./resnet50_segnet_model/
 
+###  Full Training of video semantic segmentation network
+
+**Prerequisites**
+
+1. camvid_30_fps dataset as mentioned in [datasets](#datasets) section bullet point number 2.
+2. Newly trained baseline segmentation network model copied to respective folder as [mentioned above](#what-to-do-with-the-baseline-segmentation-network-model)
+3. Download the pretained dvs_net_flownets_checkpoints and copy to respective folder as mentioned in [models and checkpoints](#models-and-checkpoints) point number 2
+
+#### Generate features
+
+This step will generate features that are then used as training data to train a regression model in the next step.
+
+
+Training set: 
+
+	$ python generate_resnet_features.py \
+	$ --data_dir ./camvid_30_fps/ \
+	$ --data_list list/train_file_list.txt \
+	$ --num_steps 11005 \
+	$ --save_dir ./generated_features_resnet_segnet/train/
+
+
+Validation set:
+
+	$ python generate_resnet_features.py \
+	$ --data_dir ./camvid_30_fps/ \
+	$ --data_list list/val_file_list.txt \
+	$ --num_steps 229 \
+	$ --save_dir ./generated_features_resnet_segnet/val/
+
+After running the above steps X.npy and Y.npy files should have been created under ./generated_features_resnet_segnet/train and ./generated_features_resnet_segnet/val folders.
+
+
+#### Training decision network
+
+This is a regression model that uses the features (X.npy and Y.npy) from the previous steps. 
+
+Run:
+
+	$ python train_decision_network.py \
+	$ --train_data_dir ./generated_features_resnet_segnet/train/ \
+	$ --val_data_dir ./generated_features_resnet_segnet/val/ \
+	$ --save_dir ./decision_network_checkpoints/
+
+This should store checkpoints in specified directory and the output will print the training and validation rms error.
+
+After generating features and training a new decision network in addition to creating a new baseline model. Steps in the inference can be run to see the prediction of new model
 
 
 # References
