@@ -233,10 +233,14 @@ This is a long video and ctrl-c in the middle of the process will still result i
 
 Following is a snapshot from the one of the following output video. A little over 2 minutes long video can be viewed on 
 1. [youtube seq01TP.avi]
-1. [youtube 0005VD.MXF]
+2. [youtube 0005VD.MXF]
+3. [youtube colors seq01TP.avi] with segmentation colors
+4. [youtube colors 0005VD.MXF] with segmentation colors
 
 [youtube seq01TP.avi]: https://youtu.be/12gbAF7S1ZU
 [youtube 0005VD.MXF]: https://youtu.be/ct40ZaaMS40
+[youtube colors seq01TP.avi]: https://youtu.be/6Wxl6m-W5pc
+[youtube colors 0005VD.MXF]: https://youtu.be/TPcPed14S9E
 
 # ![video-output](readme_images/video-frame-with-distance-info.png)
 
